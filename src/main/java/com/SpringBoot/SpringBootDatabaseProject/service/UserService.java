@@ -1,49 +1,52 @@
 package com.SpringBoot.SpringBootDatabaseProject.service;
 
 import com.SpringBoot.SpringBootDatabaseProject.entities.User;
+import com.SpringBoot.SpringBootDatabaseProject.exception.NoSuchUserExistsException;
+import com.SpringBoot.SpringBootDatabaseProject.exception.UserAlreadyExistsException;
 import com.SpringBoot.SpringBootDatabaseProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
+
+    public User getUser(int id) {
+        return userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("NO USER PRESENT WITH ID = " + id));
     }
 
-    public List<User> saveUsers(List<User> user) {
-        return userRepository.saveAll(user);
+
+    public String addUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if (existingUser == null) {
+            userRepository.save(user);
+            return "User added successfully";
+        } else
+            throw new UserAlreadyExistsException("User already exists!!");
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+
+    public String updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if (existingUser == null)
+            throw new NoSuchUserExistsException("No Such User exists!!");
+        else {
+            existingUser.setName(user.getName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setEmail(user.getEmail());
+            userRepository.save(existingUser);
+            return "Record updated Successfully";
+        }
     }
 
-    public User getUserById(int id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    public User getUserByName(String name) {
-        return userRepository.findByName(name);
-    }
 
     public String deleteUser(int id) {
         userRepository.deleteById(id);
-        return "User removed !";
+        return "User removed" + id;
     }
-
-    public User updateUser(User user) {
-        User updateUser = userRepository.findById(user.getId()).orElse(null);
-        updateUser.setName(user.getName());
-        updateUser.setEmail(user.getEmail());
-        updateUser.setLastName(user.getLastName());
-        return userRepository.save(updateUser);
-    }
-
-
 }
