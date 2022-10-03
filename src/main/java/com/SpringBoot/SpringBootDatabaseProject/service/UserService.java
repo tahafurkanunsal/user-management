@@ -17,24 +17,24 @@ public class UserService {
 
 
     public User getUser(int id) {
-        return userRepository.findById(id).orElseThrow(()-> new NoSuchElementException("NO USER PRESENT WITH ID = " + id));
+        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("NO USER PRESENT WITH ID = " + id));
     }
 
 
     public String addUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
-        if (existingUser == null) {
-            userRepository.save(user);
-            return "User added successfully";
-        } else
+        if (existingUser != null) {
             throw new UserAlreadyExistsException("User already exists!!");
+        }
+        userRepository.save(user);
+        return "User added successfully";
     }
 
 
     public String updateUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
         if (existingUser == null)
-            throw new NoSuchUserExistsException("No Such User exists!!");
+            throw new NoSuchUserExistsException("No Such User exists");
         else {
             existingUser.setName(user.getName());
             existingUser.setLastName(user.getLastName());
