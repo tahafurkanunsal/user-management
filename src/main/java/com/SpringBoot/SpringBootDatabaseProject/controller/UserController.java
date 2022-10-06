@@ -5,8 +5,6 @@ import com.SpringBoot.SpringBootDatabaseProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/api")
 public class UserController {
@@ -14,38 +12,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "/user/save")
-    public User addUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.getUser(id);
     }
 
-    @PostMapping(path = "/users/save")
-    public List<User> addUsers(@RequestBody List<User> user) {
-        return userService.saveUsers(user);
+
+    @PostMapping("/users")
+    public String addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
 
-    @GetMapping(path = "/users/find")
-    public List<User> findAllUsers() {
-        return userService.getUsers();
+
+    @PutMapping("/users")
+    public String updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
     }
 
-    @GetMapping(path = "/userById/{id}")
-    public User findUserById(@PathVariable int id) {
-        return userService.getUserById(id);
-    }
-
-    @GetMapping(path = "/userByName/{name}")
-    public User findUserByName(@PathVariable String name) {
-        return userService.getUserByName(name);
-    }
-
-    @DeleteMapping(path = "/user/delete/{id}")
+    @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable int id) {
         return userService.deleteUser(id);
-    }
 
-    @PutMapping(path = "/user/update")
-    public User updateUser(@RequestBody User user) {
-        return userService.updateUser(user);
     }
 }

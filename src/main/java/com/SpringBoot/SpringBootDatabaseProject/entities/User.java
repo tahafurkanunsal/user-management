@@ -1,6 +1,11 @@
 package com.SpringBoot.SpringBootDatabaseProject.entities;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +15,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue
