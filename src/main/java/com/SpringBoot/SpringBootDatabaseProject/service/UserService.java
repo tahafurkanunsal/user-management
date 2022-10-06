@@ -33,15 +33,15 @@ public class UserService {
 
     public String updateUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
-        if (existingUser == null)
+        if (existingUser == null) {
             throw new NoSuchUserExistsException("No Such User exists");
-        else {
-            existingUser.setName(user.getName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setEmail(user.getEmail());
-            userRepository.save(existingUser);
-            return "Record updated Successfully";
         }
+
+        existingUser.setName(user.getName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setEmail(user.getEmail());
+        userRepository.save(existingUser);
+        return "Record updated Successfully";
     }
 
 
