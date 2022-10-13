@@ -15,23 +15,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
-    public User getUser(int id) {
+    public User get(int id) {
         return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("NO USER PRESENT WITH ID = " + id));
     }
 
-
-    public String addUser(User user) {
+    public User create(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
         if (existingUser != null) {
             throw new UserAlreadyExistsException("User already exists!!");
         }
-        userRepository.save(user);
-        return "User added successfully";
+        return userRepository.save(user);
     }
 
-
-    public String updateUser(User user) {
+    public User update(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
         if (existingUser == null) {
             throw new NoSuchUserExistsException("No Such User exists");
@@ -40,13 +36,10 @@ public class UserService {
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
-        userRepository.save(existingUser);
-        return "Record updated Successfully";
+        return userRepository.save(existingUser);
     }
 
-
-    public String deleteUser(int id) {
+    public void delete(int id) {
         userRepository.deleteById(id);
-        return "User removed" + id;
     }
 }
