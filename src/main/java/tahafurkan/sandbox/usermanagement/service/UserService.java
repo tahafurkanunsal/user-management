@@ -1,9 +1,9 @@
-package com.SpringBoot.SpringBootDatabaseProject.service;
+package tahafurkan.sandbox.usermanagement.service;
 
-import com.SpringBoot.SpringBootDatabaseProject.entities.User;
-import com.SpringBoot.SpringBootDatabaseProject.exception.NoSuchUserExistsException;
-import com.SpringBoot.SpringBootDatabaseProject.exception.UserAlreadyExistsException;
-import com.SpringBoot.SpringBootDatabaseProject.repository.UserRepository;
+import tahafurkan.sandbox.usermanagement.entities.User;
+import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
+import tahafurkan.sandbox.usermanagement.exception.UserAlreadyExistsException;
+import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
