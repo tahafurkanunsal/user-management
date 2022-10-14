@@ -8,11 +8,11 @@
 		<version>2.7.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.SpringBoot</groupId>
-	<artifactId>SpringBoot-Database-Project</artifactId>
+	<groupId>tahafurkan.sandbox</groupId>
+	<artifactId>usermanagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SpringBoot-Database-Project</name>
-	<description>Demo project for Spring Boot</description>
+	<name>user-management</name>
+	<description>A basic user management project</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

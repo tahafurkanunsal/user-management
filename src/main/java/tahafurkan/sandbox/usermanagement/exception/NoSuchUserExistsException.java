@@ -1,4 +1,4 @@
-package com.SpringBoot.SpringBootDatabaseProject.exception;
+package tahafurkan.sandbox.usermanagement.exception;
 
 public class NoSuchUserExistsException extends RuntimeException {
 

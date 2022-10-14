@@ -1,7 +1,7 @@
-package com.SpringBoot.SpringBootDatabaseProject.controller;
+package tahafurkan.sandbox.usermanagement.controller;
 
-import com.SpringBoot.SpringBootDatabaseProject.entities.User;
-import com.SpringBoot.SpringBootDatabaseProject.service.UserService;
+import tahafurkan.sandbox.usermanagement.entities.User;
+import tahafurkan.sandbox.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

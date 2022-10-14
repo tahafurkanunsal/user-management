@@ -1,4 +1,4 @@
-package com.SpringBoot.SpringBootDatabaseProject.entities;
+package tahafurkan.sandbox.usermanagement.entities;
 
 
 import lombok.AllArgsConstructor;
