@@ -7,7 +7,6 @@ import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -16,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User get(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("NO USER PRESENT WITH ID = " + id));
+        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id));
     }
 
     public User create(User user) {
@@ -27,10 +26,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User update(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElse(null);
+    public User update(int id, User user) {
+        User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser == null) {
-            throw new NoSuchUserExistsException("No Such User exists");
+            throw new NoSuchUserExistsException("No Such User exists :" + id);
         }
 
         existingUser.setName(user.getName());
