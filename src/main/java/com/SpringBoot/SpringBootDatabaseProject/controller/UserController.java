@@ -5,6 +5,8 @@ import com.SpringBoot.SpringBootDatabaseProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api")
 public class UserController {
@@ -16,15 +18,20 @@ public class UserController {
     public User get(@PathVariable int id) {
         return userService.get(id);
     }
+    @GetMapping(path = "/users")
+    public List<User> getAll(){
+        return userService.getAll();
+    }
 
     @PostMapping("/users")
     public User add(@RequestBody User user) {
         return userService.create(user);
     }
 
-    @PutMapping("/users")
-    public User update(@RequestBody User user) {
-        return userService.update(user);
+    @PutMapping("/users/{id}")
+    public User update(@PathVariable int id , @RequestBody User user) {
+        System.out.println("id:" +id);
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/users/{id}")
