@@ -7,6 +7,8 @@ import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UserService {
@@ -16,6 +18,9 @@ public class UserService {
 
     public User get(int id) {
         return userRepository.findById(id).orElseThrow(() -> new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id));
+    }
+    public List<User>  getAll(){
+        return userRepository.findAll();
     }
 
     public User create(User user) {

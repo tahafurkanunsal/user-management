@@ -5,6 +5,8 @@ import tahafurkan.sandbox.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/api")
@@ -16,6 +18,10 @@ public class UserController {
     @GetMapping("/users/{id}")
     public User get(@PathVariable int id) {
         return userService.get(id);
+    }
+    @GetMapping("/users")
+    public List<User> getAll(){
+        return userService.getAll();
     }
 
     @PostMapping("/users")
