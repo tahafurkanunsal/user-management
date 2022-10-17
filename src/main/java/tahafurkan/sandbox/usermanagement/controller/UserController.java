@@ -5,6 +5,7 @@ import tahafurkan.sandbox.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping(path = "/api")
 public class UserController {
@@ -22,9 +23,9 @@ public class UserController {
         return userService.create(user);
     }
 
-    @PutMapping("/users")
-    public User update(@RequestBody User user) {
-        return userService.update(user);
+    @PutMapping("/users/{id}")
+    public User update(@PathVariable int id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/users/{id}")
