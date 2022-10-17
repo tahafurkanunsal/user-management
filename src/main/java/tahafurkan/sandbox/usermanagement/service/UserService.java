@@ -28,10 +28,7 @@ public class UserService {
 
     public User update(int id, User user) {
         User existingUser = userRepository.findById(id).orElse(null);
-        if (existingUser == null) {
-            throw new NoSuchUserExistsException("No Such User exists :" + id);
-        }
-
+        get(id);
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
