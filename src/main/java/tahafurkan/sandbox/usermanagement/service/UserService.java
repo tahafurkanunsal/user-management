@@ -27,8 +27,7 @@ public class UserService {
     }
 
     public User update(int id, User user) {
-        User existingUser = userRepository.findById(id).orElse(null);
-        get(id);
+        User existingUser = get(id);
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
