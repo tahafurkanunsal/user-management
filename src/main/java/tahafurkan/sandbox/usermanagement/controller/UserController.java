@@ -23,6 +23,10 @@ public class UserController {
     public List<User> getAll(){
         return userService.getAll();
     }
+    @GetMapping("/users/v1/{userName}")
+    public User read(@PathVariable String userName){
+        return userService.read(userName);
+    }
 
     @PostMapping("/users")
     public User add(@RequestBody User user) {

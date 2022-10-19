@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "User")
@@ -26,5 +27,8 @@ public class User {
     private String name;
     private String lastName;
     private String email;
+    @Column(unique = true)
+    private String userName;
+
 
 }
