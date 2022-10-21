@@ -3,6 +3,7 @@ package tahafurkan.sandbox.usermanagement.service;
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
 import tahafurkan.sandbox.usermanagement.exception.UserAlreadyExistsException;
+import tahafurkan.sandbox.usermanagement.exception.UsernameAlreadyExistsException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,9 @@ public class UserService {
     }
 
     public User create(User user) {
-        boolean userAlreadyExist = userRepository.existsByUsername(user.getUsername());
-        if (userAlreadyExist) {
-            throw new UserAlreadyExistsException("User already exists");
+        boolean usernameAlreadyExist = userRepository.existsByUsername(user.getUsername());
+        if (usernameAlreadyExist) {
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
 
         return userRepository.save(user);
@@ -44,7 +45,7 @@ public class UserService {
         existingUser.setEmail(user.getEmail());
         existingUser.setUsername(user.getUsername());
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserAlreadyExistsException("Username already exists");
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
         return userRepository.save(existingUser);
     }
