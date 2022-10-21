@@ -4,7 +4,7 @@ import tahafurkan.sandbox.usermanagement.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsByUserName(String userName);
+    boolean existsByUsername(String username);
 
-    User findByUserName(String userName);
+    User findByUsername(String username);
 }

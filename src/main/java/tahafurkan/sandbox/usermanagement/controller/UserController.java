@@ -15,17 +15,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users/{id}")
-    public User get(@PathVariable int id) {
+    @GetMapping(value = "/users", params = {"id"})
+    public User get(@RequestParam("id") int id) {
         return userService.get(id);
     }
-    @GetMapping("/users")
-    public List<User> getAll(){
-        return userService.getAll();
+
+    @GetMapping(value = "/users", params = {"username"})
+    public User getByUsername(@RequestParam("username") String username) {
+        return userService.getByUsername(username);
     }
-    @GetMapping("/users/v1/{userName}")
-    public User read(@PathVariable String userName){
-        return userService.read(userName);
+
+    @GetMapping("/users")
+    public List<User> getAll() {
+        return userService.getAll();
     }
 
     @PostMapping("/users")

@@ -22,12 +22,13 @@ public class UserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
-    public User read(String userName){
-        return userRepository.findByUserName(userName);
+
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public User create(User user) {
-        boolean userAlreadyExist = userRepository.existsByUserName(user.getUserName());
+        boolean userAlreadyExist = userRepository.existsByUsername(user.getUsername());
         if (userAlreadyExist) {
             throw new UserAlreadyExistsException("User already exists");
         }
@@ -37,10 +38,14 @@ public class UserService {
 
     public User update(int id, User user) {
         User existingUser = get(id);
+
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
-        existingUser.setUserName(user.getUserName());
+        existingUser.setUsername(user.getUsername());
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new UserAlreadyExistsException("Username already exists");
+        }
         return userRepository.save(existingUser);
     }
 
