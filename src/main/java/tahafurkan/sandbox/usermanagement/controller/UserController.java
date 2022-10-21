@@ -15,12 +15,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users/{id}")
-    public User get(@PathVariable int id) {
+    @GetMapping(value = "/users", params = {"id"})
+    public User get(@RequestParam("id") int id) {
         return userService.get(id);
     }
+
+    @GetMapping(value = "/users", params = {"username"})
+    public User getByUsername(@RequestParam("username") String username) {
+        return userService.getByUsername(username);
+    }
+
     @GetMapping("/users")
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userService.getAll();
     }
 

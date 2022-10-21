@@ -3,10 +3,10 @@ package tahafurkan.sandbox.usermanagement.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class NoSuchUserExistsException extends RuntimeException {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class UsernameAlreadyExistsException extends RuntimeException{
 
-    public NoSuchUserExistsException(String message) {
+    public UsernameAlreadyExistsException(String message) {
         super(message);
     }
 }
