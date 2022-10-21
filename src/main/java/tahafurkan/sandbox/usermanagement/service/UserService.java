@@ -2,8 +2,7 @@ package tahafurkan.sandbox.usermanagement.service;
 
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
-import tahafurkan.sandbox.usermanagement.exception.UserAlreadyExistsException;
-import tahafurkan.sandbox.usermanagement.exception.UsernameAlreadyExistsException;
+import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +28,7 @@ public class UserService {
     }
 
     public User create(User user) {
-        boolean usernameAlreadyExist = userRepository.existsByUsername(user.getUsername());
-        if (usernameAlreadyExist) {
-            throw new UsernameAlreadyExistsException("Username already exists");
-        }
-
+        checkUsername(user.getUsername());
         return userRepository.save(user);
     }
 
@@ -42,10 +37,9 @@ public class UserService {
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
-        existingUser.setUsername(user.getUsername());
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UsernameAlreadyExistsException("Username already exists");
-        }
+        String username = user.getUsername();
+        checkUsername(username);
+        existingUser.setUsername(username);
         return userRepository.save(existingUser);
     }
 
@@ -53,5 +47,10 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    private void checkUsername(String username) {
+        if (!userRepository.existsByUsername(username)) return;
 
+        String msg = String.format("Username ='s%s' is being used by another user!", username);
+        throw new UsernameIsInUseException(msg);
+    }
 }

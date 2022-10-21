@@ -27,7 +27,7 @@ There are Dockerfile and Docker Compose files.
  - [Docker](https://www.docker.com/products/docker-desktop/)
 
 ##### 2.2 Run the Application
-- Go into project directory and run `docker-compose up`
+- Go into project directory and run `./mvnw clean package && docker-compose build && docker-compose up`
 
 You need to see logs like below:
 ```
