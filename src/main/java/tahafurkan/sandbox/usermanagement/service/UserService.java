@@ -10,6 +10,7 @@ import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -20,8 +21,14 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public User get(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id));
+    public UserDto get(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return modelMapper.map(user.get() , UserDto.class);
+        }else {
+            throw new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id);
+        }
+
     }
 
     public List<UserDto> getAll() {
@@ -40,17 +47,18 @@ public class UserService {
     }
 
     public User update(int id, User user) {
-        User existingUser = get(id);
-        existingUser.setName(user.getName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setAddress((user.getAddress()));
-        String username = user.getUsername();
-        checkUsername(username);
-        existingUser.setUsername(username);
-        return userRepository.save(existingUser);
+        Optional<User> existingUser = userRepository.findById(id);
+        if (existingUser.isPresent()) {
+            existingUser.get().setName(user.getName());
+            existingUser.get().setLastName(user.getLastName());
+            existingUser.get().setEmail(user.getEmail());
+            existingUser.get().setAddress((user.getAddress()));
+            String username = user.getUsername();
+            checkUsername(username);
+            return userRepository.save(existingUser.get());
+        }
+        return null;
     }
-
     public void delete(int id) {
         userRepository.deleteById(id);
     }

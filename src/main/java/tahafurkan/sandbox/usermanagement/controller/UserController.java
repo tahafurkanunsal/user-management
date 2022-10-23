@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/users", params = {"id"})
-    public User get(@RequestParam("id") int id) {
+    public UserDto get(@RequestParam("id") int id) {
         return userService.get(id);
     }
 
