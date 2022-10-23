@@ -1,9 +1,10 @@
 package tahafurkan.sandbox.usermanagement.controller;
 
-import tahafurkan.sandbox.usermanagement.entities.User;
-import tahafurkan.sandbox.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tahafurkan.sandbox.usermanagement.dto.UserDto;
+import tahafurkan.sandbox.usermanagement.entities.User;
+import tahafurkan.sandbox.usermanagement.service.UserService;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         return userService.getAll();
     }
 
