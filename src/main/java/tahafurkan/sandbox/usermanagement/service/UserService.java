@@ -51,6 +51,7 @@ public class UserService {
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
+        existingUser.setAddress(user.getAddress());
         return modelMapper.map(existingUser , UserDto.class);
     }
     public void delete(int id) {
