@@ -1,9 +1,10 @@
 package tahafurkan.sandbox.usermanagement.controller;
 
-import tahafurkan.sandbox.usermanagement.entities.User;
-import tahafurkan.sandbox.usermanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tahafurkan.sandbox.usermanagement.dto.UserDto;
+import tahafurkan.sandbox.usermanagement.entities.User;
+import tahafurkan.sandbox.usermanagement.service.UserService;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/users", params = {"id"})
-    public User get(@RequestParam("id") int id) {
+    public UserDto get(@RequestParam("id") int id) {
         return userService.get(id);
     }
 
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         return userService.getAll();
     }
 
@@ -36,8 +37,8 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User update(@PathVariable int id, @RequestBody User user) {
-        return userService.update(id, user);
+    public UserDto update(@PathVariable int id, @RequestBody UserDto user) {
+        return userService.update(id,user);
     }
 
     @DeleteMapping("/users/{id}")

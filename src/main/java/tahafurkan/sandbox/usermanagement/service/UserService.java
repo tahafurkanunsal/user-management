@@ -1,26 +1,40 @@
 package tahafurkan.sandbox.usermanagement.service;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
 import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    public User get(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id));
+    public UserDto get(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return modelMapper.map(user.get() , UserDto.class);
+        }else {
+            throw new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id);
+        }
+
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDto> getAll() {
+        List<User> users =userRepository.findAll();
+        List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user , UserDto.class)).collect(Collectors.toList());
+        return userDto;
     }
 
     public User getByUsername(String username) {
@@ -32,17 +46,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User update(int id, User user) {
-        User existingUser = get(id);
+    public UserDto update(int id, UserDto user) {
+        UserDto existingUser = get(id);
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
-        String username = user.getUsername();
-        checkUsername(username);
-        existingUser.setUsername(username);
-        return userRepository.save(existingUser);
+        existingUser.setAddress(user.getAddress());
+        return modelMapper.map(existingUser , UserDto.class);
     }
-
     public void delete(int id) {
         userRepository.deleteById(id);
     }
