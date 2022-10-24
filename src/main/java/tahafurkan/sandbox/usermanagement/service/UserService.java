@@ -46,18 +46,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User update(int id, User user) {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            existingUser.get().setName(user.getName());
-            existingUser.get().setLastName(user.getLastName());
-            existingUser.get().setEmail(user.getEmail());
-            existingUser.get().setAddress((user.getAddress()));
-            String username = user.getUsername();
-            checkUsername(username);
-            return userRepository.save(existingUser.get());
-        }
-        return null;
+    public UserDto update(int id, UserDto user) {
+        UserDto existingUser = get(id);
+        existingUser.setName(user.getName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setEmail(user.getEmail());
+        return modelMapper.map(existingUser , UserDto.class);
     }
     public void delete(int id) {
         userRepository.deleteById(id);
