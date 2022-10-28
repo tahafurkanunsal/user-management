@@ -17,8 +17,6 @@ public class Address {
     private String addressName;
     private String city;
     private String district;
-    @ManyToOne
-    @JoinColumn( referencedColumnName = "id")
-    private User user;
+
 
 }
