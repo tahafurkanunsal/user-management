@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tahafurkan.sandbox.usermanagement.entities.Address;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ public class UserDto {
     private String name;
     private String lastName;
     private String email;
-    private List<Address> address;
+    private List<Address> address = new ArrayList<>();
 
 
 
