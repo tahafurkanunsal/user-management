@@ -23,17 +23,17 @@ public class UserService {
 
     public UserDto get(int id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()){
-            return modelMapper.map(user.get() , UserDto.class);
-        }else {
+        if (user.isPresent()) {
+            return modelMapper.map(user.get(), UserDto.class);
+        } else {
             throw new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id);
         }
 
     }
 
     public List<UserDto> getAll() {
-        List<User> users =userRepository.findAll();
-        List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user , UserDto.class)).collect(Collectors.toList());
+        List<User> users = userRepository.findAll();
+        List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
         return userDto;
     }
 
@@ -52,8 +52,9 @@ public class UserService {
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
         existingUser.setAddress(user.getAddress());
-        return modelMapper.map(existingUser , UserDto.class);
+        return modelMapper.map(existingUser, UserDto.class);
     }
+
     public void delete(int id) {
         userRepository.deleteById(id);
     }

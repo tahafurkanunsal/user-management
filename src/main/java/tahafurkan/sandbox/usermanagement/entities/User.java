@@ -1,17 +1,11 @@
 package tahafurkan.sandbox.usermanagement.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "User")
@@ -29,6 +23,8 @@ public class User {
     private String email;
     @Column(unique = true)
     private String username;
-    private String address;
+    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private List<Address> address;
 
 }
