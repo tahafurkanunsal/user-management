@@ -10,12 +10,12 @@ public class AddressConverter {
 
         List<AddressDto> addressDtoList = new ArrayList<>();
 
-            AddressDto addressDto = new AddressDto();
-            addressDto.setCity(address.getCity());
-            addressDto.setDistrict(address.getDistrict());
-            addressDto.setAddressName(address.getAddressName());
-            addressDtoList.add(addressDto);
+        AddressDto addressDto = new AddressDto();
+        addressDto.setCity(address.getCity());
+        addressDto.setDistrict(address.getDistrict());
+        addressDto.setAddressName(address.getAddressName());
+        addressDtoList.add(addressDto);
 
     }
-    }
+}
 

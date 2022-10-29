@@ -23,7 +23,7 @@ public class User {
     private String email;
     @Column(unique = true)
     private String username;
-    @OneToMany(targetEntity = Address.class , cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private List<Address> address;
 

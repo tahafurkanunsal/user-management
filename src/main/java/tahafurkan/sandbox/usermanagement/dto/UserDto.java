@@ -20,5 +20,4 @@ public class UserDto {
     private List<Address> address = new ArrayList<>();
 
 
-
 }

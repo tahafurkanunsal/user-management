@@ -12,9 +12,9 @@ public class UserConverter {
         userDto.setName(user.getName());
         userDto.setLastName(user.getLastName());
 
-        List<Address> AddressConverter = user.getAddress();
+        List<Address> address = user.getAddress();
 
-        userDto.setAddress(AddressConverter);
+        userDto.setAddress(address);
         return userDto;
     }
 }
