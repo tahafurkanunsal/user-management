@@ -7,6 +7,7 @@ import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
 import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
+import tahafurkan.sandbox.usermanagement.exception.UsernameUnavailableException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class UserService {
     }
 
     public User create(User user) {
+        usernameUnavailable(user.getUsername());
         checkUsername(user.getUsername());
         return userRepository.save(user);
     }
@@ -64,5 +66,12 @@ public class UserService {
 
         String msg = String.format("Username ='s%s' is being used by another user!", username);
         throw new UsernameIsInUseException(msg);
+    }
+
+    private void usernameUnavailable(String username) {
+        if (username.equals("dummy")) {
+            String msg = String.format("Username = '%s is cannot be used!", username);
+            throw new UsernameUnavailableException(msg);
+        }
     }
 }
