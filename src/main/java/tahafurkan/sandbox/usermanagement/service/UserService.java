@@ -43,7 +43,6 @@ public class UserService {
     }
 
     public User create(User user) {
-        usernameUnavailable(user.getUsername());
         checkUsername(user.getUsername());
         return userRepository.save(user);
     }
@@ -62,16 +61,14 @@ public class UserService {
     }
 
     private void checkUsername(String username) {
-        if (!userRepository.existsByUsername(username)) return;
-
-        String msg = String.format("Username ='s%s' is being used by another user!", username);
-        throw new UsernameIsInUseException(msg);
-    }
-
-    private void usernameUnavailable(String username) {
         if (username.equals("dummy")) {
             String msg = String.format("Username = '%s is cannot be used!", username);
             throw new UsernameUnavailableException(msg);
-        }
+        } else if (!userRepository.existsByUsername(username)) return;
+
+        String msg = String.format("Username ='s%s' is being used by another user!", username);
+        throw new UsernameIsInUseException(msg);
+
     }
+
 }
