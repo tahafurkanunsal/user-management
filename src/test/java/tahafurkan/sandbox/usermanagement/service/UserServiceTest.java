@@ -21,17 +21,26 @@ class UserServiceTest {
     @Mock
     UserRepository userRepository;
 
+
     @InjectMocks
     UserService userService;
+
     @Test
-    void checkUsername() throws UsernameUnavailableException, UsernameIsInUseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method =UserService.class.getDeclaredMethod("checkUsername", String.class);
+    void shouldCheckTheAvailabilityOfTheUsername() throws UsernameUnavailableException, UsernameIsInUseException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = UserService.class.getDeclaredMethod("checkUsername", String.class);
         method.setAccessible(true);
-        method.invoke(userService , "Joker");
+        method.invoke(userService, "Joker");
     }
 
     @Test
-    void create(){
+    void shouldCheckIfUsernameExists() throws Throwable {
+        Method method = UserService.class.getDeclaredMethod("checkUsername", String.class);
+        method.setAccessible(true);
+        method.invoke(userService, "Joker");
+    }
+
+    @Test
+    void create() {
         User user = new User();
         user.setUsername("Joker");
         Mockito.when(userRepository.save(user)).thenReturn(user);
