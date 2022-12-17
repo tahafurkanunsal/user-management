@@ -1,36 +1,29 @@
 package tahafurkan.sandbox.usermanagement.service;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
-import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.Address;
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
 import tahafurkan.sandbox.usermanagement.exception.UsernameUnavailableException;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 
 @RunWith(MockitoJUnitRunner.class)
 class UserServiceTest {
 
-    @Mock
+    @Spy
     private UserRepository userRepository;
 
     @InjectMocks
@@ -41,18 +34,6 @@ class UserServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
-
-    /*@Test
-    void create() {
-        User user = new User(1,
-                "Taha Furkan",
-                "Unsal",
-                "t.furkanunsal.gmail.com",
-                "TFU",
-                Collections.singletonList(new Address(1, "Home", "Istanbul", "Bahcelievler")));
-        Mockito.when(userRepository.save(user)).thenReturn(user);
-        assertThat(userService.create(user));
-    }*/
 
     @Test
     void checkUsername_GivenUsernameObama_ThrowsException() {
@@ -84,6 +65,31 @@ class UserServiceTest {
         String username = "another-username";
         given(userRepository.existsByUsername(username)).willReturn(false);
         userService.checkUsername(username);
+    }
+
+    @Test
+    void create_GivenProhibitedUsername_ThrowsException() {
+        String username = "obama";
+        List<Address> addressList = new ArrayList<>();
+        addressList.add(new Address(1, "home", "New York", "New York"));
+        addressList.add(new Address(2, "work", "Texas", "Texas"));
+
+        User user = new User(1, "Barrack", "Obama", "barrack.obama@hotmail.com", username, addressList);
+
+        assertThrows(UsernameUnavailableException.class, () -> {
+            userService.create(user);
+        });
+    }
+
+    @Test
+    void create_GivenAllowedUsername_ReturnsSavedUser() {
+        String username = "taha.furkan";
+        List<Address> addressList = new ArrayList<>();
+        addressList.add(new Address(1, "home", "Istanbul", "Turkey"));
+        addressList.add(new Address(2, "work", "Istanbul", "Turkey"));
+        User user = new User(1, "Taha", "Unsal", "taha.f.unsal@gmail.com", username, addressList);
+        userService.create(user);
+        Mockito.verify(userRepository, times(1)).save(user);
     }
 
 }
