@@ -60,15 +60,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private void checkUsername(String username) {
-        if (username.equals("dummy")) {
+    public void checkUsername(String username) {
+        if (username.equalsIgnoreCase("obama")) {
             String msg = String.format("Username = '%s is cannot be used!", username);
             throw new UsernameUnavailableException(msg);
-        } else if (!userRepository.existsByUsername(username)) return;
-
-        String msg = String.format("Username ='s%s' is being used by another user!", username);
-        throw new UsernameIsInUseException(msg);
-
+        }
+        if (userRepository.existsByUsername(username)) {
+            String msg = String.format("Username ='%s' is being used by another user!", username);
+            throw new UsernameIsInUseException(msg);
+        }
     }
 
 }
