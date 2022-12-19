@@ -57,7 +57,14 @@ public class UserService {
     }
 
     public void delete(int id) {
-        userRepository.deleteById(id);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            String msg = String.format(" ID = %d , this ID does not exist  ", id);
+            throw new NoSuchUserExistsException(msg);
+        }
+
     }
 
     public void checkUsername(String username) {
