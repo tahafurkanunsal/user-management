@@ -21,10 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -120,13 +119,18 @@ class UserServiceTest {
         User user = new User();
         user.setId(id);
         given(userRepository.findById(id)).willReturn(Optional.of(user));
-        userService.get(id);
+        UserDto userDto = userService.get(id);
+        assertNotNull(userDto);
+        assertEquals(1, userDto.getId());
     }
 
     @Test
     void getAll_ReturnsEmptyUserList() {
         userService.getAll();
         Mockito.verify(userRepository, times(1)).findAll();
+        assertEquals(0, userRepository.findAll().size());
+
+
     }
 
     @Test
@@ -135,24 +139,35 @@ class UserServiceTest {
 
         List<Address> addressList = new ArrayList<>();
         addressList.add(new Address(1, "home", "Istanbul", "Turkey"));
-        User user_1 = new User(1, "Taha", "Unsal", "taha.f.unsal@gmail.com","taha.furkan",  addressList);
-        User user_2 = new User(2, "Zehra", "Unsal", "zehra.unsal@gmail.com","zehra.unsal", addressList);
+        User user_1 = new User(1, "Taha", "Unsal", "taha.f.unsal@gmail.com", "taha.furkan", addressList);
+        User user_2 = new User(2, "Zehra", "Unsal", "zehra.unsal@gmail.com", "zehra.unsal", addressList);
         records.add(user_1);
         records.add(user_2);
 
         given(userRepository.findAll()).willReturn(records);
+        List<UserDto> users = userService.getAll();
+        Mockito.verify(userRepository, times(1)).findAll();
+        assertNotNull(users);
+        assertEquals(2, users.size());
 
-        Mockito.verify(userRepository , verificationData -> records.size());
-        
+
     }
 
     @Test
     void delete_WithNonExistentId_ThrowsException() {
+        assertThrows(NoSuchUserExistsException.class, () -> {
+            int id = 1;
+            User user = new User();
+            user.setId(id);
+            given(userRepository.findById(id)).willReturn(Optional.empty());
+            userService.delete(id);
+            verify(userRepository, times(1)).deleteById(id);
+        });
 
     }
 
     @Test
-    void delete_WithExistentId_ThrowsException() {
+    void delete_WithExistentId_DoNothing() {
         int id = 1;
         User user = new User();
         user.setId(id);
@@ -169,17 +184,18 @@ class UserServiceTest {
         user.setUsername(username);
         given(userRepository.findByUsername(username)).willReturn(user);
         userService.getByUsername(username);
-        assertEquals(user.getUsername(), username);
+        assertEquals(username, user.getUsername());
     }
 
     @Test
-    void getByUsername_GivenUsernameNonExists_ThrowsException() {
+    void getByUsername_GivenUsernameNonExists_DoNothing() {
         String username = "taha.furkan";
         User user = new User();
         user.setUsername(username);
+        given(userRepository.findByUsername(username)).willReturn(null);
         userService.getByUsername(username);
-    }
 
+    }
 
     @Test
     void update_UpdatesLastName_ReturnsUpdatedUser() {
@@ -195,7 +211,9 @@ class UserServiceTest {
 
         given(userRepository.save(user)).willReturn(user);
 
-        userService.update(user.getId(), updateUser);
+        UserDto userDto = userService.update(user.getId(), updateUser);
+        assertNotNull(userDto);
+        assertEquals("furkan", userDto.getLastName());
 
 
     }
