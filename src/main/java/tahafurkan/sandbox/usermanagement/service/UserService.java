@@ -48,12 +48,13 @@ public class UserService {
     }
 
     public UserDto update(int id, UserDto user) {
-        UserDto existingUser = get(id);
+        User existingUser = userRepository.findById(id).get();
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
         existingUser.setAddress(user.getAddress());
-        return modelMapper.map(existingUser, UserDto.class);
+        User updateUser = userRepository.save(existingUser);
+        return modelMapper.map(updateUser, UserDto.class);
     }
 
     public void delete(int id) {
@@ -64,7 +65,6 @@ public class UserService {
             String msg = String.format(" ID = %d , this ID does not exist  ", id);
             throw new NoSuchUserExistsException(msg);
         }
-
     }
 
     public void checkUsername(String username) {
