@@ -3,10 +3,7 @@ package tahafurkan.sandbox.usermanagement.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import tahafurkan.sandbox.usermanagement.dto.UserDto;
@@ -25,9 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-
 @RunWith(MockitoJUnitRunner.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Spy
     private UserRepository userRepository;
@@ -36,7 +32,7 @@ class UserServiceTest {
     private ModelMapper modelMapper;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
 
     @BeforeEach
@@ -76,7 +72,6 @@ class UserServiceTest {
         userService.checkUsername(username);
     }
 
-
     @Test
     void create_GivenProhibitedUsername_ThrowsException() {
         String username = "obama";
@@ -101,7 +96,6 @@ class UserServiceTest {
         userService.create(user);
         Mockito.verify(userRepository, times(1)).save(user);
     }
-
 
     @Test
     void get_WithAnIdNotExist_ThrowsException() {
@@ -129,8 +123,6 @@ class UserServiceTest {
         List<UserDto> userList = userService.getAll();
         Mockito.verify(userRepository, times(1)).findAll();
         assertEquals(0, userList.size());
-
-
     }
 
     @Test
@@ -149,8 +141,6 @@ class UserServiceTest {
         Mockito.verify(userRepository, times(1)).findAll();
         assertNotNull(users);
         assertEquals(2, users.size());
-
-
     }
 
     @Test
@@ -164,7 +154,6 @@ class UserServiceTest {
 
             verify(userRepository, never()).deleteById(id);
         });
-
     }
 
     @Test
@@ -175,8 +164,6 @@ class UserServiceTest {
         given(userRepository.findById(id)).willReturn(Optional.of(user));
         userService.delete(id);
         verify(userRepository, times(1)).deleteById(id);
-
-
     }
 
     @Test
@@ -197,7 +184,6 @@ class UserServiceTest {
         given(userRepository.findByUsername(username)).willReturn(null);
         User user_1 = userService.getByUsername(username);
         assertEquals(null, user_1);
-
     }
 
     @Test
@@ -217,11 +203,7 @@ class UserServiceTest {
         UserDto userDto = userService.update(user.getId(), updateUser);
         assertNotNull(userDto);
         assertEquals("furkan", userDto.getLastName());
-
-
     }
-
-
 }
 
 
