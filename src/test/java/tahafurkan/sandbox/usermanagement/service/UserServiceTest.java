@@ -185,8 +185,8 @@ class UserServiceTest {
         User user = new User();
         user.setUsername(username);
         given(userRepository.findByUsername(username)).willReturn(user);
-        userService.getByUsername(username);
-        assertEquals(username, userService. getByUsername(username));
+        User user1 = userService.getByUsername(username);
+        assertEquals(username, user1.getUsername());
     }
 
     @Test
@@ -195,8 +195,8 @@ class UserServiceTest {
         User user = new User();
         user.setUsername(username);
         given(userRepository.findByUsername(username)).willReturn(null);
-        userService.getByUsername(username);
-        assertEquals(null, userService.getByUsername(username));
+        User user_1 = userService.getByUsername(username);
+        assertEquals(null, user_1);
 
     }
 
