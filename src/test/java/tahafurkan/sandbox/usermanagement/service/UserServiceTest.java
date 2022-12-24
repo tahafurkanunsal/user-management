@@ -128,7 +128,7 @@ class UserServiceTest {
     void getAll_ReturnsEmptyUserList() {
         userService.getAll();
         Mockito.verify(userRepository, times(1)).findAll();
-        assertEquals(0, userRepository.findAll().size());
+        assertEquals(0, userService.getAll().size());
 
 
     }
@@ -161,7 +161,8 @@ class UserServiceTest {
             user.setId(id);
             given(userRepository.findById(id)).willReturn(Optional.empty());
             userService.delete(id);
-            verify(userRepository, times(1)).deleteById(id);
+
+            verify(userRepository, never()).deleteById(id);
         });
 
     }
@@ -173,6 +174,7 @@ class UserServiceTest {
         user.setId(id);
         given(userRepository.findById(id)).willReturn(Optional.of(user));
         userService.delete(id);
+        verify(userRepository, times(1)).deleteById(id);
 
 
     }
@@ -194,6 +196,7 @@ class UserServiceTest {
         user.setUsername(username);
         given(userRepository.findByUsername(username)).willReturn(null);
         userService.getByUsername(username);
+        assertEquals(null, userService.getByUsername(username));
 
     }
 
