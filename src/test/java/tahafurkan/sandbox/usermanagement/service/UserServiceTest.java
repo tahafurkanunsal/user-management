@@ -126,9 +126,9 @@ class UserServiceTest {
 
     @Test
     void getAll_ReturnsEmptyUserList() {
-        userService.getAll();
+        List<UserDto> userList = userService.getAll();
         Mockito.verify(userRepository, times(1)).findAll();
-        assertEquals(0, userService.getAll().size());
+        assertEquals(0, userList.size());
 
 
     }
@@ -186,7 +186,7 @@ class UserServiceTest {
         user.setUsername(username);
         given(userRepository.findByUsername(username)).willReturn(user);
         userService.getByUsername(username);
-        assertEquals(username, user.getUsername());
+        assertEquals(username, userService. getByUsername(username));
     }
 
     @Test
