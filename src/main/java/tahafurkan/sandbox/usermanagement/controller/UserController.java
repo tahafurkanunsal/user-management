@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.service.UserService;
+import tahafurkan.sandbox.usermanagement.service.UserServiceImpl;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     public UserDto update(@PathVariable int id, @RequestBody UserDto user) {
-        return userService.update(id,user);
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/users/{id}")

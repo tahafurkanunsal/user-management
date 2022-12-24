@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Spy
     private UserRepository userRepository;
@@ -32,7 +32,7 @@ class UserServiceTest {
     private ModelMapper modelMapper;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
 
     @BeforeEach

@@ -1,81 +1,22 @@
 package tahafurkan.sandbox.usermanagement.service;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.User;
-import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
-import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
-import tahafurkan.sandbox.usermanagement.exception.UsernameUnavailableException;
-import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+public interface UserService {
+    public UserDto get(int id);
 
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    public List<UserDto> getAll();
 
-    public UserDto get(int id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return modelMapper.map(user.get(), UserDto.class);
-        } else {
-            throw new NoSuchUserExistsException("NO USER PRESENT WITH ID = " + id);
-        }
+    public User getByUsername(String username);
 
-    }
+    public User create(User user);
 
-    public List<UserDto> getAll() {
-        List<User> users = userRepository.findAll();
-        List<UserDto> userDto = users.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
-        return userDto;
-    }
+    public UserDto update(int id, UserDto user);
 
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    public void delete(int id);
 
-    public User create(User user) {
-        checkUsername(user.getUsername());
-        return userRepository.save(user);
-    }
-
-    public UserDto update(int id, UserDto user) {
-        User existingUser = userRepository.findById(id).get();
-        existingUser.setName(user.getName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setAddress(user.getAddress());
-        User updateUser = userRepository.save(existingUser);
-        return modelMapper.map(updateUser, UserDto.class);
-    }
-
-    public void delete(int id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.deleteById(id);
-        } else {
-            String msg = String.format(" ID = %d , this ID does not exist  ", id);
-            throw new NoSuchUserExistsException(msg);
-        }
-    }
-
-    public void checkUsername(String username) {
-        if (username.equalsIgnoreCase("obama")) {
-            String msg = String.format("Username = '%s is cannot be used!", username);
-            throw new UsernameUnavailableException(msg);
-        }
-        if (userRepository.existsByUsername(username)) {
-            String msg = String.format("Username ='%s' is being used by another user!", username);
-            throw new UsernameIsInUseException(msg);
-        }
-    }
-
+    public void checkUsername(String username);
 }
