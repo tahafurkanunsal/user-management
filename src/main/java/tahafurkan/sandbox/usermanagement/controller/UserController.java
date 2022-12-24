@@ -1,6 +1,7 @@
 package tahafurkan.sandbox.usermanagement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tahafurkan.sandbox.usermanagement.dto.UserDto;
 import tahafurkan.sandbox.usermanagement.entities.User;
@@ -14,8 +15,11 @@ import java.util.List;
 @RequestMapping(path = "/api")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/users", params = {"id"})
     public UserDto get(@RequestParam("id") int id) {
