@@ -8,7 +8,6 @@ import tahafurkan.sandbox.usermanagement.entities.User;
 import tahafurkan.sandbox.usermanagement.exception.NoSuchUserExistsException;
 import tahafurkan.sandbox.usermanagement.exception.UsernameIsInUseException;
 import tahafurkan.sandbox.usermanagement.exception.UsernameUnavailableException;
-import tahafurkan.sandbox.usermanagement.repository.AddressRepository;
 import tahafurkan.sandbox.usermanagement.repository.UserRepository;
 
 import java.util.List;
@@ -22,8 +21,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private AddressRepository addressRepository;
 
     @Override
     public UserDto get(int id) {
@@ -50,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUserByCity(String city) {
-        return addressRepository.findUsersByGivenCity(city);
+        return userRepository.findUsersByGivenCity(city);
     }
 
     @Override
