@@ -12,6 +12,8 @@ public interface UserService {
 
     public User getByUsername(String username);
 
+    public List<User> findUserByCity(String city);
+
     public User create(User user);
 
     public UserDto update(int id, UserDto user);

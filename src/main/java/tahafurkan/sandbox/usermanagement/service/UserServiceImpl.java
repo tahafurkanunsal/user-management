@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findUserByCity(String city) {
+        return userRepository.findUsersByGivenCity(city);
+    }
+
+    @Override
     public User create(User user) {
         checkUsername(user.getUsername());
         return userRepository.save(user);
